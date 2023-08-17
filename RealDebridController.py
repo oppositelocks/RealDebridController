@@ -9,11 +9,6 @@ pathtowatch = "/mnt/local/downloads/torrents"
 #Your RealDebrid Api key
 rdapikey = ""
 
-handler = EventHandler()
-notifier = pyinotify.Notifier(wm, handler)
-wdd = wm.add_watch(pathtowatch, mask, rec=True)
-notifier.loop()
-
 wm = pyinotify.WatchManager()  # Watch Manager
 mask = pyinotify.IN_DELETE | pyinotify.IN_CREATE  # watched events
 
@@ -63,3 +58,9 @@ class EventHandler(pyinotify.ProcessEvent):
 
         else:
             print("IGNORE Not suitable - " , tail)
+
+
+handler = EventHandler()
+notifier = pyinotify.Notifier(wm, handler)
+wdd = wm.add_watch(pathtowatch, mask, rec=True)
+notifier.loop()
