@@ -29,11 +29,18 @@ class EventHandler(pyinotify.ProcessEvent):
             addtorrenturl = ("https://api.real-debrid.com/rest/1.0/torrents/addTorrent?auth_token="+rdapikey)
             with open(torrent, 'rb') as finput:
                 response = requests.put(addtorrenturl, data=finput.read())
-            responsefromrd = (response.json())
-            myid = responsefromrd['id']
-            head, tail = os.path.split(torrent)
-            filename=tail
-            print ("Submitted to RD")
+                responsefromrd = (response.json())
+                myid = responsefromrd['id']
+                head, tail = os.path.split(torrent)
+                filename=tail
+                print ("Submitted to RD")
+                attemptstogetlink=0
+                rderror=" "
+                completedtask="No"
+                time.sleep(2)
+                selectfiles = ("https://api.real-debrid.com/rest/1.0/torrents/selectFiles/" + myid + "?auth_token=" + rdapikey)
+                allfiles = {"files": "all"}
+                response = requests.post(selectfiles, data=allfiles)
 
         elif extension == "magnet":
             print("Magnet file detected ",tail)
@@ -45,7 +52,14 @@ class EventHandler(pyinotify.ProcessEvent):
             myid = responsefromrd['id']
             head, tail = os.path.split(magnet)
             filename = tail
-            print ("Submitted to RD")
+            print("Submitted to RD")
+            attemptstogetlink=0
+            rderror=" "
+            completedtask="No"
+            time.sleep(2)
+            selectfiles = ("https://api.real-debrid.com/rest/1.0/torrents/selectFiles/" + myid + "?auth_token=" + rdapikey)
+            allfiles = {"files": "all"}
+            response = requests.post(selectfiles, data=allfiles)
 
         else:
             print("IGNORE Not suitable - " , tail)
