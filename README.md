@@ -1,3 +1,4 @@
 # RealDebridController
 
-A simple script to send local torrents and magnet files to RealDebrid.
+This script is just a super simplified version of the prject found here:
+https://github.com/hyperbunny77/RealDebridManager
